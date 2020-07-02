@@ -2,10 +2,120 @@
 <html>
   <head>
     <meta charset='utf-8'>
-    <style>
-    </style>
+    <link rel='stylesheet' href='www/style.css'>
   </head>
   <body>
+
+    <div class='layout'>
+
+      <div class='view'>
+        <div class='render'>
+          <svg height=400 width=400></svg>
+          <canvas height=400 width=400></canvas>
+        </div>
+        <div class='vertical-slider'>
+          <div class='knob'></div>
+        </div>
+        <div class='horizontal-slider'>
+          <div class='knob'></div>
+        </div>
+      </div>
+
+      <div class='controls'>
+        <table>
+
+          <tr>
+            <td>Spin</td>
+            <td><input type='checkbox' id='spin'></td>
+          </tr>
+
+          <tr>
+            <td>Render Target</td>
+            <td>
+              <select id='render-target'>
+                <option>SVG</option>
+                <option>Canvas</option>
+              </select>
+            </td>
+          </tr>
+
+          <tr>
+            <td>Earth Landmass</td>
+            <td>
+              <select id='earth-options'>
+                <option value=0>None</option>
+                <option value=1>Fill</option>
+                <option value=2>Outline</option>
+                <option value=3>Outline &amp; Fill</option>
+              </select>
+            </td>
+          </tr>
+
+          <tr>
+            <td>Sphere (x, y, z, r, &theta;, &alpha;)</td>
+            <td>
+            <input type=text id='sphere-x' data-target='globe.center' data-property='x'>
+            <input type=text id='sphere-y' data-target='globe.center' data-property='y'>
+            <input type=text id='sphere-z' data-target='globe.center' data-property='z'>
+            <input type=text id='sphere-r' data-target='globe' data-property='r'>
+            <input type=text id='sphere-theta' data-target='globe' data-property='theta' data-transform='radians' data-min='0' data-max='180'>
+            <input type=text id='sphere-alpha' data-target='globe' data-property='alpha' data-transform='radians' data-min='-180' data-max='180'>
+            </td>
+          </tr>
+
+          <tr>
+            <td>Light (x, y, z)</td>
+            <td>
+            <input type=text id='light-x' data-target='fizz.light.center' data-property='x'>
+            <input type=text id='light-y' data-target='fizz.light.center' data-property='y'>
+            <input type=text id='light-z' data-target='fizz.light.center' data-property='z'>
+            </td>
+          </tr>
+
+          <tr>
+            <td>Light Intensity</td>
+            <td>
+            <input type=text id='intensity' class='wider' data-target='fizz.light' data-property='intensity'>
+            </td>
+          </tr>
+
+          <tr>
+            <td>Shadow</td>
+            <td>
+            <input type=text id='shadow' data-target='fizz.light' data-property='shadow'>
+            </td>
+          </tr>
+
+          <tr>
+            <td>Dash Threshold</td>
+            <td>
+            <input type=text id='dash-threshold' data-target='globe.threshold' data-property='dash'>
+            </td>
+          </tr>
+
+          <tr>
+            <td>Line Threshold</td>
+            <td>
+            <input type=text id='line-threshold' data-target='globe.threshold' data-property='line'>
+            </td>
+          </tr>
+
+          <tr>
+            <td>Longitudinal Steps</td>
+            <td>
+            <input type=text id='sphere-long-steps' data-target='globe' data-property='longitudinal_steps'>
+            </td>
+          </tr>
+
+        </table>
+      </div>
+
+    </div>
+
+    <div class='mask'></div>
+
     <script src='dist/fizz.js'></script>
+    <script src='www/script.js'></script>
+
   </body>
 </html>
