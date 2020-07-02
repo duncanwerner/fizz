@@ -1,6 +1,64 @@
 
 class Example {
 
+  /**
+   * we use css but if we want to export svg, then we need to attach
+   * properties to the individual nodes. we only care about a couple of 
+   * properties so probably not a big chore.
+   */
+  ExportSVG() {
+
+    const svg = document.querySelector('.view svg');
+
+    const properties_list = [
+      'backgroundColor',
+      'strokeWidth',
+      'stroke',
+      'fill',
+      'strokeLinejoin',
+      'strokeLinecap',
+    ];
+
+    const attach_properties = (node) => {
+      const css = window.getComputedStyle(node);
+      for (const property of properties_list) {
+        if (css[property]) {
+          node.style[property] = css[property];
+        }
+      }
+      const children = node.children;
+      Array.prototype.forEach.call(children, (child) => {
+        attach_properties(child);
+      });
+    };
+
+    attach_properties(svg);
+
+    svg.setAttribute('version', '1.1');
+    svg.setAttribute('baseProfile', 'basic');
+    svg.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+
+    const dtd = `<?xml version="1.0" encoding="utf-8"?>\n` +
+      `<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1 Basic//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11-basic.dtd">\n`;
+
+    const link = document.createElement('a');
+    link.setAttribute('href', 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(dtd + svg.outerHTML));
+    link.setAttribute('download', 'globe.svg');
+    link.click();
+
+  }
+
+  ExportCanvas() {
+    const canvas = document.querySelector('.view canvas');
+    const link = document.createElement('a');
+    link.setAttribute('href', canvas.toDataURL('image/png'));
+    link.setAttribute('download', 'globe.png');
+    link.click();
+  }
+
+  /**
+   * start a mouse drag operation
+   */
   MouseDown(event, move, end) {
     if (event.buttons > 1) { return; }
     event.stopPropagation();
@@ -141,6 +199,7 @@ class Example {
       clear: true, 
       node: canvas,
       style: {
+        background: { fill: '#fff', },
         base: { stroke: '#666', fill: 'none', stroke_width: 1, },
         'light-source': { stroke: 'red', },
         'shading-stroke': { stroke_width: .5, },
@@ -156,8 +215,8 @@ class Example {
     render.addEventListener('mousedown', (event) => {
       const rect = render.getBoundingClientRect();
       this.MouseDown(event, (event) => {
-        const x = Math.min(400, Math.max(0, event.clientX - rect.left));
-        const y = Math.min(400, Math.max(0, event.clientY - rect.top));
+        const x = Math.min(rect.width, Math.max(0, event.clientX - rect.left));
+        const y = Math.min(rect.height, Math.max(0, event.clientY - rect.top));
         this.fizz.light.center.x = x;
         this.fizz.light.center.y = y;
         this.UpdateLightControls();
@@ -199,14 +258,23 @@ class Example {
 
     const rect = render.getBoundingClientRect();
     this.fizz = new Fizz({ width: rect.width, height: rect.height });
-    this.globe = this.fizz.AddGlobe();
+    this.globe = this.fizz.AddGlobe({
+      center: {x: 150, y: 150, z: 0},
+      r: 90,
+      alpha: Math.PI * 2 * Math.random() - Math.PI,
+      theta: Math.PI / 2 + (Math.random() - 0.5) * Math.PI / 2,
+    });
 
-    // init random, but be sane
+    this.render_target = 'SVG';
 
-    this.globe.alpha = Math.PI * 2 * Math.random() - Math.PI;
-    this.globe.theta = Math.PI / 2 + (Math.random() - 0.5) * Math.PI / 2;
-
-    this.render_target = 'Canvas';
+    if (this.render_target === 'SVG') {
+      svg.style.zIndex = 2;
+      canvas.style.zIndex = 1;
+    }
+    else {
+      svg.style.zIndex = 1;
+      canvas.style.zIndex = 2;
+    }
 
     const controls = document.querySelectorAll('.controls [id]');
     this.controls = {};
@@ -274,6 +342,14 @@ class Example {
 
     });
 
+    document.querySelector('button#export').addEventListener('click', () => {
+      if (this.render_target === 'SVG') {
+        this.ExportSVG();
+      }
+      else {
+        this.ExportCanvas();
+      }
+    });
 
     this.Render();
 

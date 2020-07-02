@@ -50,14 +50,10 @@ html, body {
   margin-left: 2rem;
 }
 
-.controls {
-  width: 400px;
-}
-
 .view {
   display: grid;
-  grid-template-columns: 400px 30px;
-  grid-template-rows: 400px 30px;
+  grid-template-columns: 300px 30px;
+  grid-template-rows: 300px 30px;
   column-gap: 20px;
   row-gap: 20px;
 }
@@ -85,7 +81,7 @@ html, body {
 
 .horizontal-slider {
   height: 30px;
-  width: 400px;
+  width: 300px;
   border: 1px solid #ccc;
   border-radius: 3px;
   position: relative;
@@ -114,7 +110,7 @@ html, body {
 }
 
 .vertical-slider {
-  height: 400px;
+  height: 300px;
   width: 30px;
   border: 1px solid #ccc;
   border-radius: 3px;
@@ -146,7 +142,7 @@ html, body {
 
 /* controls */
 
-.controls input[type=text], .controls select {
+.controls input[type=text], .controls select, .controls button {
   width: 4em;
   border-radius: 3px;
   padding: 3px 6px;
