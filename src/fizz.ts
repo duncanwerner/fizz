@@ -45,6 +45,7 @@ export class Fizz {
       r: 100,
     });
     this.shapes.push(globe);
+    return globe;
   }
 
   /**
@@ -56,6 +57,7 @@ export class Fizz {
       r: 100,
     });
     this.shapes.push(sphere);
+    return sphere;
   }
 
 
