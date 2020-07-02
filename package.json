@@ -1,5 +1,6 @@
 {
   "name": "fizz",
+  "license": "gpl3",
   "version": "1.0.0",
   "devDependencies": {
     "ts-loader": "^7.0.5",
