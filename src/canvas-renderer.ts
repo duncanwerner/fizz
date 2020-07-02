@@ -30,18 +30,18 @@ export class CanvasRenderer extends Renderer {
       }
     }
     this.style_stack.push(style);
-    this.ApplyStyle([style]);
+    this.ApplyStyle();
   };
 
   private PopStyle = () => {
     this.style_stack.pop();
-    this.ApplyStyle(this.style_stack);
+    this.ApplyStyle();
   };
 
-  private ApplyStyle(styles: CanvasRenderingStyle[]) {
+  private ApplyStyle() {
 
     this.composite = {};
-    for (const style of styles) {
+    for (const style of this.style_stack) {
       if (style.stroke) {
         this.composite.stroke = style.stroke;
       }
@@ -172,6 +172,10 @@ export class CanvasRenderer extends Renderer {
     // store reference
 
     this.styles = options.style || {};
+
+    if (this.styles.base) {
+      this.style_stack.push(this.styles.base);
+    }
 
     if (options.clear) {
       context.clearRect(0, 0, size.width, size.height);
