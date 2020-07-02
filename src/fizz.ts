@@ -1,8 +1,8 @@
 
 import { Light, Size } from './types';
 import { Shape } from './shape';
-import { Globe } from './globe';
-import { Sphere } from './sphere';
+import { Globe, GlobeOptions } from './globe';
+import { Sphere, SphereOptions } from './sphere';
 import { SVGRenderer } from './svg-renderer';
 import { CanvasRenderer } from './canvas-renderer';
 import { RenderOptions } from './remderer';
@@ -14,7 +14,7 @@ export class Fizz {
 
   public light: Light = {
     center: { x: 0, y: 0, z: 400 },
-    intensity: 1.25e5, 
+    intensity: 7.5e4, 
     shadow: 3,
   };
 
@@ -39,10 +39,10 @@ export class Fizz {
   /**
    * utility function for web
    */
-  public AddGlobe() {
+  public AddGlobe(options: GlobeOptions = {}) {
     const globe = new Globe({
-      center: {x: 200, y: 200, z: 0}, 
-      r: 100,
+      center: {x: 200, y: 200, z: 0},  r: 100,
+      ...options,
     });
     this.shapes.push(globe);
     return globe;
@@ -51,10 +51,10 @@ export class Fizz {
   /**
    * utility function for web
    */
-  public AddSphere() {
+  public AddSphere(options: SphereOptions = {}) {
     const sphere = new Sphere({
-      center: {x: 200, y: 200, z: 0}, 
-      r: 100,
+      center: {x: 200, y: 200, z: 0}, r: 100,
+      ...options,
     });
     this.shapes.push(sphere);
     return sphere;

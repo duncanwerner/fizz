@@ -179,6 +179,10 @@ export class CanvasRenderer extends Renderer {
 
     if (options.clear) {
       context.clearRect(0, 0, size.width, size.height);
+      if (this.styles.background) {
+        context.fillStyle = this.styles.background.fill || '';
+        context.fillRect(0, 0, size.width, size.height);
+      }
     }
 
     if (options.render_light_source) {
